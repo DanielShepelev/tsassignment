@@ -1,5 +1,5 @@
-public class SimpleOutput {
+public class SimpleApp {
     public static void main(String[] args) {
-        System.out.println("checking...");
+        System.out.println("Hello from Kpack!");
     }
 }
