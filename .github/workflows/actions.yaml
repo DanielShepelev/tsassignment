@@ -9,6 +9,11 @@ jobs:
   build-and-push:
     runs-on:  self-hosted
 
+    inputs:
+      version:
+        description: 'Enter the new version'
+        required: true
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -16,31 +21,12 @@ jobs:
       - name: Read current version
         id: read-version
         run: |
-          INITIAL_VERSION="1.0.2"
-          echo "::set-output name=initial_version::$INITIAL_VERSION"
+          echo "::set-output name=initial_version::1.0.2"  # Initial version placeholder
 
-      - name: Extract numeric version
-        id: extract-numeric-version
-        run: |
-          INITIAL_VERSION=${{ steps.read-version.outputs.initial_version }}
-          IFS='.' read -r -a VERSION_PARTS <<< "$INITIAL_VERSION"
-          MAJOR=${VERSION_PARTS[0]}
-          MINOR=${VERSION_PARTS[1]}
-          PATCH=${VERSION_PARTS[2]}
-
-          VERSION_NUMERIC=$((MAJOR * 10000 + MINOR * 100 + PATCH))
-          echo "::set-output name=version_numeric::$VERSION_NUMERIC"
-
-      - name: Bump version by 1
+      - name: Bump version
         id: bump-version
         run: |
-          VERSION_NUMERIC=${{ steps.extract-numeric-version.outputs.version_numeric }}
-          NEW_VERSION_NUMERIC=$((VERSION_NUMERIC + 1))
-          NEW_MAJOR=$((NEW_VERSION_NUMERIC / 10000))
-          NEW_MINOR=$(((NEW_VERSION_NUMERIC / 100) % 100))
-          NEW_PATCH=$((NEW_VERSION_NUMERIC % 100))
-
-          NEW_VERSION="$NEW_MAJOR.$NEW_MINOR.$NEW_PATCH"
+          NEW_VERSION=${{ inputs.version }}
           echo $NEW_VERSION > version.txt
           echo "::set-output name=new_version::$NEW_VERSION"
 
@@ -53,6 +39,9 @@ jobs:
             --tag dshep15/tomcat-demo:${NEW_VERSION} \
             --git https://github.com/DanielShepelev/tsassignment/ \
             --git-revision main
-          
- 
-          
+
+      - name: Update Helm Chart
+        run: |
+          NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
+          sed -i 's#dshep15/tomcat-demo:[0-9].[0-9].[0-9]#dshep15/tomcat-demo:'"$NEW_VERSION"'#g' helmfiles/templates/Deployment.yaml
+          cat path/to/Deployment.yaml  # Confirm changes
