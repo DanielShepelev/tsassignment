@@ -38,6 +38,12 @@ jobs:
           echo $NEW_VERSION > version.txt
           echo "::set-output name=new_version::$NEW_VERSION"
 
+      - name: Update image tag in kpack_images/image.yaml
+        run: |
+          NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
+          sed -i "s/tag: .*/tag: $NEW_VERSION/" kpack_images/image.yaml
+          cat kpack_images/image.yaml  # Confirm changes
+
       - name: Build and push Docker image
         run: |
           NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
@@ -48,20 +54,17 @@ jobs:
             --git https://github.com/DanielShepelev/tsassignment/ \
             --git-revision main
 
-      - name: Update image tag in kpack_images/image.yaml
-        run: |
-          NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
-          sed -i "s/tag: .*/tag: $NEW_VERSION/" kpack_images/image.yaml
-          cat kpack_images/image.yaml  # Confirm changes
 
-      - name: Update Helm Chart
-        run: |
-          NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
-          sed -i "s|dshep15/builder:[0-9]+.[0-9]+.[0-9]+|dshep15/builder:$NEW_VERSION|" kpack_images/image.yaml
-          cat helmfiles/Chart.yaml  # Confirm changes
-          cd helmfiles
-          helm package .
-          ls
-          file=(my-java-app-*)
-          curl --data-binary "@$file" http://20.237.113.172:8081/api/charts
-          rm my-java-app-*
+
+    
+
+      # - name: Update Helm Chart
+      #   run: |
+      #     NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
+      #     cat helmfiles/Chart.yaml  # Confirm changes
+      #     cd helmfiles
+      #     helm package .
+      #     ls
+      #     file=(my-java-app-*)
+      #     curl --data-binary "@$file" http://20.237.113.172:8081/api/charts
+      #     rm my-java-app-*
