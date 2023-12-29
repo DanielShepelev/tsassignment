@@ -56,4 +56,6 @@ jobs:
           cd helmfiles
           helm package .
           ls
-          curl --data-binary "@*.tgz" http://20.237.113.172:8081/api/charts
+          file=(my-java-app-*)
+          curl --data-binary "@$file" http://20.237.113.172:8081/api/charts
+          rm my-java-app-*
