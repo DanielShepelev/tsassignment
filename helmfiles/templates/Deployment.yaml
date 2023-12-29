@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: tomcat
-          image: dshep15/builder:1.0.8
+          image: dshep15/builder:latest
           ports:
             - containerPort: 8080
           volumeMounts:
