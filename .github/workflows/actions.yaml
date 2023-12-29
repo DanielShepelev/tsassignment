@@ -15,7 +15,7 @@ jobs:
 
       - name: Read INITIAL_VERSION from version.txt
         run: |
-          export INITIAL_VERSION=$(cat path/to/version.txt)
+          export INITIAL_VERSION=$(cat version.txt)
           echo "INITIAL_VERSION=$INITIAL_VERSION" >> $GITHUB_ENV
               
       - name: Extract numeric version
@@ -67,8 +67,8 @@ jobs:
       - name: Update values.yaml
         run: |
           NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
-          sed -i 's/tag: ""/tag: "'"$NEW_VERSION"'"/' path/to/values.yaml
-          cat path/to/values.yaml  # Verify changes
+          sed -i 's/tag: ""/tag: "'"$NEW_VERSION"'"/' helmfiles/values.yaml
+          cat helmfiles/values.yaml  # Verify changes
 
       - name: Update Helm Chart
         run: |
