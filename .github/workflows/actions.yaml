@@ -15,5 +15,8 @@ jobs:
       - name: Build and push Docker image
         run: |
           # Replace these with your kp CLI commands
-          kp
+          kp --help
           kubectl get pods
+          pwd
+          ls
+          
