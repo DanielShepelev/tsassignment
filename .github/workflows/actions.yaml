@@ -44,7 +44,7 @@ jobs:
           kp image create tomcat-demo-${NEW_VERSION} \
             --namespace default \
             --builder my-builder \
-            --tag dshep15/tomcat-demo:${NEW_VERSION} \
+            --tag dshep15/builder:${NEW_VERSION}  \
             --git https://github.com/DanielShepelev/tsassignment/ \
             --git-revision main
             
