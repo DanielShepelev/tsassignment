@@ -16,14 +16,14 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set version
+        id: set-version
         run: |
           if [[ -z "${{ github.event.inputs.version }}" ]]; then
             read -p "Enter the new version: " VERSION
-            export VERSION=$VERSION
+            echo "::set-output name=new_version::$VERSION"
           else
-            export VERSION=${{ github.event.inputs.version }}
+            echo "::set-output name=new_version::${{ github.event.inputs.version }}"
           fi
-          echo "::set-output name=new_version::$VERSION"
 
       - name: Build and push Docker image
         run: |
