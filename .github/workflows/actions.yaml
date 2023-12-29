@@ -47,7 +47,13 @@ jobs:
             --tag dshep15/builder:${NEW_VERSION}  \
             --git https://github.com/DanielShepelev/tsassignment/ \
             --git-revision main
-            
+
+      - name: Update image tag in kpack_images/image.yaml
+        run: |
+          NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
+          sed -i "s/tag: .*/tag: $NEW_VERSION/" kpack_images/image.yaml
+          cat kpack_images/image.yaml  # Confirm changes
+
       - name: Update Helm Chart
         run: |
           NEW_VERSION=${{ steps.bump-version.outputs.new_version }}

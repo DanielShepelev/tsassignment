@@ -1,0 +1,15 @@
+apiVersion: kpack.io/v1alpha2
+kind: Image
+metadata:
+  name: tomcat-image
+  namespace: default
+spec:
+  tag: dshep15/builder:latest
+  serviceAccountName: registry-credentials-service-account
+  builder:
+    name: my-builder
+    kind: Builder
+  source:
+    git:
+      url: https://github.com/DanielShepelev/tsassignment
+      revision: main
