@@ -10,7 +10,7 @@ jobs:
     runs-on: self-hosted
 
     env:
-      INITIAL_VERSION: "1.0.10"  # Define initial version here
+      INITIAL_VERSION: "1.0.12"  # Define initial version here
 
     steps:
       - name: Checkout code
@@ -55,4 +55,4 @@ jobs:
           cat helmfiles/Chart.yaml  # Confirm changes
           #cd helmfiles
           #helm package .
-          #curl --data-binary "@chart.tgz" http://20.237.113.172:8081/api/charts
+          #curl --data-binary "@*.tgz" http://20.237.113.172:8081/api/charts
