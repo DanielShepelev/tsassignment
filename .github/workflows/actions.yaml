@@ -13,11 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set INITIAL_VERSION environment variable
+      - name: Read INITIAL_VERSION from version.txt
         run: |
-          export INITIAL_VERSION=$(cat version.txt)
-          echo "::set-env name=INITIAL_VERSION::$INITIAL_VERSION"
-
+          export INITIAL_VERSION=$(cat path/to/version.txt)
+          echo "INITIAL_VERSION=$INITIAL_VERSION" >> $GITHUB_ENV
+              
       - name: Extract numeric version
         id: extract-numeric-version
         run: |
