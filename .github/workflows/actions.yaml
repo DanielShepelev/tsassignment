@@ -5,29 +5,28 @@ on:
     inputs:
       version:
         description: 'Enter the new version'
-        required: true
-
+        required: false
 
 jobs:
   build-and-push:
-    runs-on:  self-hosted
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Read current version
-        id: read-version
+      - name: Set version
         run: |
-          echo "::set-output name=initial_version::1.0.2"  # Initial version placeholder
+          if [[ -z "${{ github.event.inputs.version }}" ]]; then
+            read -p "Enter the new version: " VERSION
+            export VERSION=$VERSION
+          else
+            export VERSION=${{ github.event.inputs.version }}
+          fi
 
       - name: Bump version
-        id: bump-version
         run: |
-          NEW_VERSION=${{ inputs.version }}
-          echo $NEW_VERSION > version.txt
-          echo "::set-output name=new_version::$NEW_VERSION"
-
+          echo "The new version is $VERSION"
       - name: Build and push Docker image
         run: |
           NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
