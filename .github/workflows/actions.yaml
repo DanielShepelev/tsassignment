@@ -1,18 +1,16 @@
 name: Build and Push Image
 
 on:
-  push:
-    branches:
-      - main  # Or your branch name
-
-jobs:
-  build-and-push:
-    runs-on:  self-hosted
-
+  workflow_dispatch:
     inputs:
       version:
         description: 'Enter the new version'
         required: true
+
+
+jobs:
+  build-and-push:
+    runs-on:  self-hosted
 
     steps:
       - name: Checkout code
