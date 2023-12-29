@@ -1,21 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-java-app
+  name: {{ .Values.nameOverride }}
 spec:
-  replicas: 2
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: my-java-app
+      app: {{ .Values.nameOverride }}
   template:
     metadata:
       labels:
-        app: my-java-app
+        app: {{ .Values.nameOverride }}
     spec:
       containers:
-        - name: tomcat
-          image: dshep15/builder:latest
-          imagePullPolicy: Always
+        - name: {{ .Values.nameOverride }}
+          image: '{{ .Values.image.repository }}:{{ .Values.image.tag | default "latest"}}'
           ports:
             - containerPort: 8080
           volumeMounts:

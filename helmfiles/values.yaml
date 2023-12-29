@@ -1,0 +1,9 @@
+nameOverride: "my-java-app"
+fullnameOverride: ""
+
+replicaCount: 4
+
+image:
+  repository: dshep15/builder
+  pullPolicy: IfNotPresent
+  tag: ""
