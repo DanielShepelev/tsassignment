@@ -51,7 +51,8 @@ jobs:
       - name: Update Helm Chart
         run: |
           NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
-          ls
-          pwd
-          sed -i 's#\(dshep15/builder:\)[0-9].[0-9].[0-9]#\1'"$NEW_VERSION"'#g' helmfiles/templates/Deployment.yaml
-          cat helmfiles/templates/Deployment.yaml  # Confirm changes
+          sed -i "s/version: [0-9]\+\.[0-9]\+\.[0-9]\+/version: $NEW_VERSION/" helmfiles/Chart.yaml 
+          cat helmfiles/Chart.yaml  # Confirm changes
+          #cd helmfiles
+          #helm package .
+          #curl --data-binary "@chart.tgz" http://20.237.113.172:8081/api/charts
