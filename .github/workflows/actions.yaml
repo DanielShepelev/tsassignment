@@ -52,4 +52,4 @@ jobs:
         run: |
           NEW_VERSION=${{ steps.set-version.outputs.new_version }}
           sed -i 's#dshep15/tomcat-demo:[0-9].[0-9].[0-9]#dshep15/tomcat-demo:'"$NEW_VERSION"'#g' helmfiles/templates/Deployment.yaml
-          cat path/to/Deployment.yaml  # Confirm changes
+          cat helmfiles/templates/Deployment.yaml  # Confirm changes
