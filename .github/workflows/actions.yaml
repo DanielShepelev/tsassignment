@@ -1,22 +1,58 @@
-name: Build and Push Docker Image
+name: Build and Push Image
 
 on:
   push:
     branches:
-      - main  # Replace with your branch name
+      - main  # Or your branch name
 
 jobs:
   build-and-push:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Read current version
+        id: read-version
+        run: |
+          INITIAL_VERSION="1.0.2"
+          echo "::set-output name=initial_version::$INITIAL_VERSION"
+
+      - name: Extract numeric version
+        id: extract-numeric-version
+        run: |
+          INITIAL_VERSION=${{ steps.read-version.outputs.initial_version }}
+          IFS='.' read -r -a VERSION_PARTS <<< "$INITIAL_VERSION"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+
+          VERSION_NUMERIC=$((MAJOR * 10000 + MINOR * 100 + PATCH))
+          echo "::set-output name=version_numeric::$VERSION_NUMERIC"
+
+      - name: Bump version by 1
+        id: bump-version
+        run: |
+          VERSION_NUMERIC=${{ steps.extract-numeric-version.outputs.version_numeric }}
+          NEW_VERSION_NUMERIC=$((VERSION_NUMERIC + 1))
+          NEW_MAJOR=$((NEW_VERSION_NUMERIC / 10000))
+          NEW_MINOR=$(((NEW_VERSION_NUMERIC / 100) % 100))
+          NEW_PATCH=$((NEW_VERSION_NUMERIC % 100))
+
+          NEW_VERSION="$NEW_MAJOR.$NEW_MINOR.$NEW_PATCH"
+          echo $NEW_VERSION > version.txt
+          echo "::set-output name=new_version::$NEW_VERSION"
+
       - name: Build and push Docker image
         run: |
-          # Replace these with your kp CLI commands
-          kp --help
-          kubectl get pods
-          pwd
-          ls
+          NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
+          kp image create tomcat-demo-${NEW_VERSION} \
+            --namespace default \
+            --builder my-builder \
+            --tag dshep15/tomcat-demo:${NEW_VERSION} \
+            --git https://github.com/DanielShepelev/tsassignment/ \
+            --git-revision main
+          
+ 
           
