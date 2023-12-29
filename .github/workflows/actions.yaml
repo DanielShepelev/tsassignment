@@ -41,7 +41,7 @@ jobs:
       - name: Update image tag in kpack_images/image.yaml
         run: |
           NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
-          sed -i "s/tag: .*/tag: $NEW_VERSION/" kpack_images/image.yaml
+          sed -i "s|tag:.*|tag: dshep15/builder:$NEW_VERSION|" kpack_images/image.yaml
           cat kpack_images/image.yaml  # Confirm changes
 
       - name: Build and push Docker image
