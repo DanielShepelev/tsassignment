@@ -15,6 +15,7 @@ spec:
       containers:
         - name: tomcat
           image: dshep15/builder:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           volumeMounts:
