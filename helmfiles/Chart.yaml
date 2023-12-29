@@ -1,0 +1,4 @@
+apiVersion: v2
+name: my-java-app
+description: A Helm chart for a simple Java application running on Tomcat
+version: 0.1.0
