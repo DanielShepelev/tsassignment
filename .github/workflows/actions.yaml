@@ -10,7 +10,7 @@ jobs:
     runs-on: self-hosted
 
     env:
-      INITIAL_VERSION: "1.0.6"  # Define initial version here
+      INITIAL_VERSION: "1.0.7"  # Define initial version here
 
     steps:
       - name: Checkout code
@@ -51,5 +51,7 @@ jobs:
       - name: Update Helm Chart
         run: |
           NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
-          sed -i '' 's#dshep15/tomcat-demo:[0-9].[0-9].[0-9]#dshep15/tomcat-demo:'"$NEW_VERSION"'#g' helmfiles/templates/Deployment.yaml
+          ls
+          pwd
+          sed -i 's#dshep15/tomcat-demo:[0-9].[0-9].[0-9]#dshep15/tomcat-demo:'"$NEW_VERSION"'#g' helmfiles/templates/Deployment.yaml
           cat helmfiles/templates/Deployment.yaml  # Confirm changes
