@@ -15,7 +15,7 @@ jobs:
 
       - name: Read INITIAL_VERSION from version.txt
         run: |
-          export INITIAL_VERSION=$(cat version.txt)
+          export INITIAL_VERSION=$(cat ../version.txt)
           echo "INITIAL_VERSION=$INITIAL_VERSION" >> $GITHUB_ENV
               
       - name: Extract numeric version
