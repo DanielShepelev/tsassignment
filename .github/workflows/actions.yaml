@@ -49,7 +49,7 @@ jobs:
           NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
           kp image create tomcat-demo-${NEW_VERSION} \
             --namespace default \
-            --service-account registry-credentials-service-account
+            --service-account registry-credentials-service-account \
             --builder my-builder \
             --tag dshep15/builder:${NEW_VERSION}  \
             --git https://github.com/DanielShepelev/tsassignment/ \
