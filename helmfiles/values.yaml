@@ -1,7 +1,7 @@
 nameOverride: "my-java-app"
 fullnameOverride: ""
 
-replicaCount: 3
+replicaCount: 5
 
 image:
   repository: dshep15/builder
