@@ -6,6 +6,9 @@ spec:
   selector:
     app: {{ .Values.nameOverride }}
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 80
       targetPort: 8080
+      nodePort: 30000  # Specific nodePort for HTTP traffic
+  type: NodePort
