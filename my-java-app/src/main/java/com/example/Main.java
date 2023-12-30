@@ -1,27 +1,18 @@
-package com.example;
-
-import org.apache.catalina.startup.Tomcat;
-
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import javax.servlet.ServletException;
 
-public class Main extends HttpServlet {
+public class SimpleServlet extends HttpServlet {
 
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/plain");
-        response.getWriter().println("Hello from my Java Tomcat App!");
-    }
-
-    public static void main(String[] args) throws Exception {
-        Tomcat tomcat = new Tomcat();
-        tomcat.setPort(8080);
-
-        tomcat.addWebApp("", "src/main/java");
-        tomcat.start();
-        tomcat.getServer().await();
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("<h2>Hello, this is a simple servlet!</h2>");
+        out.println("</body></html>");
     }
 }
+
