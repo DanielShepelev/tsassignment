@@ -37,7 +37,7 @@ jobs:
           NEW_MINOR=$(((NEW_VERSION_NUMERIC / 100) % 100))
           NEW_PATCH=$((NEW_VERSION_NUMERIC % 100))
           NEW_VERSION="$NEW_MAJOR.$NEW_MINOR.$NEW_PATCH"
-          echo $NEW_VERSION > version.txt
+          echo $NEW_VERSION > ../version.txt
           echo "::set-output name=new_version::$NEW_VERSION"
 
       - name: Update image tag in kpack_images/image.yaml
