@@ -70,7 +70,7 @@ jobs:
           sed -i 's/tag: ""/tag: "'"$NEW_VERSION"'"/' helmfiles/values.yaml
           cat helmfiles/values.yaml  # Verify changes
 
-      - name: Update Helm Chart
+      - name: Update Helm Chart in chartmeseum
         run: |
           NEW_VERSION=${{ steps.bump-version.outputs.new_version }}
           sed -i "s/version: [0-9]\+\.[0-9]\+\.[0-9]\+/version: $NEW_VERSION/" helmfiles/Chart.yaml 
