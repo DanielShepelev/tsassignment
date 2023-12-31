@@ -54,7 +54,7 @@ jobs:
             --service-account registry-credentials-service-account \
             --builder my-builder \
             --tag dshep15/builder:${NEW_VERSION}  \
-            --git https://github.com/DanielShepelev/java-app/ \
+            --git https://github.com/DanielShepelev/tsassignment/ \
             --git-revision main
 
       # - name: Update the new version in values.yaml
